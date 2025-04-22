@@ -1,139 +1,71 @@
-create table users
-(
-    id            int auto_increment
-        primary key,
-    email         text                                  not null,
-    username      text                                  not null,
-    password_hash text                                  not null,
-    created_at    timestamp default current_timestamp() not null,
-    last_login_at timestamp                             null,
-    constraint email
-        unique (email) using hash
+CREATE TABLE users (
+                       id            INT AUTO_INCREMENT PRIMARY KEY,
+                       email         TEXT UNIQUE NOT NULL,
+                       username      TEXT NOT NULL,
+                       password_hash TEXT NOT NULL,  -- bcrypt / PBKDF2‑SHA‑256
+                       created_at    TIMESTAMP NOT NULL DEFAULT NOW(),
+                       last_login_at TIMESTAMP
 );
 
-create table notes
-(
-    id          int auto_increment
-        primary key,
-    owner_id    int                                    not null,
-    title       text                                   null,
-    content     text                                   null,
-    is_public   tinyint(1) default 0                   not null,
-    public_slug text                                   null,
-    created_at  timestamp  default current_timestamp() not null,
-    updated_at  timestamp  default current_timestamp() not null,
-    deleted_at  timestamp                              null,
-    constraint public_slug
-        unique (public_slug) using hash,
-    constraint notes_ibfk_1
-        foreign key (owner_id) references users (id)
-            on delete cascade
+CREATE TABLE notes (
+                       id          INT AUTO_INCREMENT PRIMARY KEY,
+                       owner_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                       title       TEXT,
+                       content     TEXT,
+                       is_public   BOOLEAN NOT NULL DEFAULT FALSE,
+                       public_slug TEXT UNIQUE,  -- случайно UUID/Hash
+                       created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+                       updated_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+                       deleted_at  TIMESTAMP
 );
 
-create table note_shares
-(
-    id             int auto_increment
-        primary key,
-    note_id        int                                   not null,
-    shared_with_id int                                   not null,
-    perm           text                                  not null
-        check (`perm` in ('read', 'edit')),
-    created_at     timestamp default current_timestamp() not null,
-    constraint note_id
-        unique (note_id, shared_with_id),
-    constraint note_shares_ibfk_1
-        foreign key (note_id) references notes (id)
-            on delete cascade,
-    constraint note_shares_ibfk_2
-        foreign key (shared_with_id) references users (id)
-            on delete cascade
+CREATE TABLE note_shares (
+                             id             INT AUTO_INCREMENT PRIMARY KEY,
+                             note_id        INTEGER NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+                             shared_with_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                             perm           TEXT NOT NULL CHECK (perm IN ('read','edit')),
+                             created_at     TIMESTAMP NOT NULL DEFAULT NOW(),
+                             UNIQUE (note_id, shared_with_id)
 );
 
-create index idx_note_shares_shared_with_id
-    on note_shares (shared_with_id);
-
-create index idx_notes_deleted_at
-    on notes (deleted_at);
-
-create index idx_notes_owner_id
-    on notes (owner_id);
-
-create index idx_notes_public_slug
-    on notes (public_slug(768));
-
-create table reminders
-(
-    id         int auto_increment
-        primary key,
-    note_id    int                  not null,
-    creator_id int                  not null,
-    remind_at  timestamp            not null,
-    is_sent    tinyint(1) default 0 not null,
-    constraint reminders_ibfk_1
-        foreign key (note_id) references notes (id)
-            on delete cascade,
-    constraint reminders_ibfk_2
-        foreign key (creator_id) references users (id)
-            on delete cascade
+CREATE TABLE todo_items (
+                            id        INT AUTO_INCREMENT PRIMARY KEY,
+                            note_id   INTEGER NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+                            text      TEXT NOT NULL,
+                            is_done   BOOLEAN NOT NULL DEFAULT FALSE,
+                            due_date  TIMESTAMP
 );
 
-create table notifications
-(
-    id          int auto_increment
-        primary key,
-    user_id     int       not null,
-    reminder_id int       not null,
-    channel     text      not null
-        check (`channel` in ('email', 'in-app')),
-    sent_at     timestamp not null,
-    constraint notifications_ibfk_1
-        foreign key (user_id) references users (id)
-            on delete cascade,
-    constraint notifications_ibfk_2
-        foreign key (reminder_id) references reminders (id)
-            on delete cascade
+CREATE TABLE reminders (
+                           id         INT AUTO_INCREMENT PRIMARY KEY,
+                           note_id    INTEGER NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+                           creator_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                           remind_at  TIMESTAMP NOT NULL,
+                           is_sent    BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-create index idx_notifications_sent_at
-    on notifications (sent_at);
-
-create index idx_notifications_user_id
-    on notifications (user_id);
-
-create index reminder_id
-    on notifications (reminder_id);
-
-create index creator_id
-    on reminders (creator_id);
-
-create index idx_reminders_is_sent
-    on reminders (is_sent);
-
-create index idx_reminders_remind_at
-    on reminders (remind_at);
-
-create index note_id
-    on reminders (note_id);
-
-create table todo_items
-(
-    id       int auto_increment
-        primary key,
-    note_id  int                  not null,
-    text     text                 not null,
-    is_done  tinyint(1) default 0 not null,
-    due_date timestamp            null,
-    constraint todo_items_ibfk_1
-        foreign key (note_id) references notes (id)
-            on delete cascade
+CREATE TABLE notifications (
+                               id           INT AUTO_INCREMENT PRIMARY KEY,
+                               user_id      INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                               reminder_id  INTEGER NOT NULL REFERENCES reminders(id) ON DELETE CASCADE,
+                               channel      TEXT NOT NULL CHECK (channel IN ('email','in-app')),
+                               sent_at      TIMESTAMP NOT NULL
 );
 
-create index idx_todo_due_date
-    on todo_items (due_date);
 
-create index idx_todo_note_id
-    on todo_items (note_id);
+CREATE INDEX idx_users_username ON users (username);
 
-create index idx_users_username
-    on users (username(768));
+CREATE INDEX idx_notes_owner_id ON notes (owner_id);
+CREATE INDEX idx_notes_public_slug ON notes (public_slug);
+CREATE INDEX idx_notes_deleted_at ON notes (deleted_at);
 
+CREATE INDEX idx_note_shares_shared_with_id ON note_shares (shared_with_id);
+
+CREATE INDEX idx_todo_note_id ON todo_items (note_id);
+CREATE INDEX idx_todo_due_date ON todo_items (due_date);
+
+CREATE INDEX idx_reminders_remind_at ON reminders (remind_at);
+CREATE INDEX idx_reminders_is_sent ON reminders (is_sent);
+
+CREATE INDEX idx_notifications_user_id ON notifications (user_id);
+CREATE INDEX idx_notifications_sent_at ON notifications (sent_at);
