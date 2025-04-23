@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import org.example.notesproject.enums.Channel;
 
 import java.time.LocalDateTime;
-
-/* Notification */
 @Entity
 @Table(name = "notifications")
 public class Notification {
@@ -27,5 +25,48 @@ public class Notification {
 
     @Column(name="sent_at")
     private LocalDateTime sentAt;
+
+    public Notification() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Reminder getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(Reminder reminder) {
+        this.reminder = reminder;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public LocalDateTime getSentAt() {
+        return sentAt;
+    }
+
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
+    }
 }
 
