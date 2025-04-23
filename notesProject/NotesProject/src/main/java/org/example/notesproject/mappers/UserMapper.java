@@ -15,8 +15,14 @@ public class UserMapper {
         return user;
     }
     public void updateDto(User user, UserInDTO dto){
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPasswordHash(dto.getPassword());
+        if(dto.getUsername() != null){
+            user.setUsername(dto.getUsername());
+        }
+        if(dto.getEmail() != null){
+            user.setEmail(dto.getEmail());
+        }
+        if(dto.getPassword() != null){
+            user.setPasswordHash(dto.getPassword());
+        }
     }
 }

@@ -3,7 +3,9 @@ package org.example.notesproject.service;
 import org.example.notesproject.dtos.in.NoteInDTO;
 import org.example.notesproject.mappers.NoteMapper;
 import org.example.notesproject.models.Note;
+import org.example.notesproject.models.User;
 import org.example.notesproject.repository.NoteRepository;
+import org.example.notesproject.repository.UserRepository;
 import org.example.notesproject.service.contracts.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,25 @@ import java.util.UUID;
 @Service
 public class NoteServiceImpl implements NoteService {
     private final NoteRepository noteRepository;
+    private final UserRepository userRepository;
     private final NoteMapper noteMapper;
     private static final String BASE_URL = "api/notes/";
     private static final String SLUG_SALT = "your-secret-salt";
     @Autowired
-    public NoteServiceImpl(NoteRepository noteRepository, NoteMapper noteMapper){
+    public NoteServiceImpl(NoteRepository noteRepository, NoteMapper noteMapper, UserRepository userRepository){
         this.noteRepository = noteRepository;
         this.noteMapper = noteMapper;
+        this.userRepository = userRepository;
     }
     @Override
     public Note create(NoteInDTO noteInDTO) {
         Note createdNote = noteMapper.fromDto(noteInDTO);
+        if (noteInDTO.getOwnerId() == null) {
+            throw new IllegalArgumentException("Note must have an ownerId");
+        }
+        User owner = userRepository.findById(noteInDTO.getOwnerId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        createdNote.setOwner(owner);
         Note savedNote = noteRepository.save(createdNote);
         if(savedNote.getIsPublic()){
             String secureSlug = generateSecureSlug(savedNote.getId());
@@ -54,10 +64,10 @@ public class NoteServiceImpl implements NoteService {
         Note noteToUpdate = find(id);
         Boolean wasPublic = noteToUpdate.getIsPublic();
         noteMapper.updateDto(noteToUpdate, noteInDTO);
-        if(noteInDTO.getIsPublic() && !wasPublic){
+        if (Boolean.TRUE.equals(noteInDTO.getIsPublic()) && !Boolean.TRUE.equals(wasPublic)) {
             String secureSlug = generateSecureSlug(id);
-            noteToUpdate.setPublicSlug(BASE_URL +  "{"+secureSlug+"}");
-        }else if(!noteToUpdate.getIsPublic() && wasPublic) {
+            noteToUpdate.setPublicSlug(BASE_URL + "{" + secureSlug + "}");
+        } else if (!Boolean.TRUE.equals(noteInDTO.getIsPublic()) && Boolean.TRUE.equals(wasPublic)) {
             noteToUpdate.setPublicSlug(null);
         }
         return noteRepository.save(noteToUpdate);

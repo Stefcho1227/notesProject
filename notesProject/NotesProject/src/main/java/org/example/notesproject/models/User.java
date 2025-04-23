@@ -27,7 +27,6 @@ public class User {
 
     @Column(name="created_at")
     @CreationTimestamp
-    @FutureOrPresent
     private LocalDateTime createdAt;
     @Column(name="last_login_at")
     private LocalDateTime lastLoginAt;

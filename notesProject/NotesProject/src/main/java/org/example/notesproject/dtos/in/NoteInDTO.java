@@ -7,6 +7,15 @@ public class NoteInDTO {
     private String title;
     private String content;
     private Boolean isPublic;
+    private Integer ownerId;
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public String getTitle() {
         return title;

@@ -11,13 +11,29 @@ public class NoteMapper {
     public Note fromDto(NoteInDTO dto) {
         Note note = new Note();
         note.setTitle(dto.getTitle());
-        note.setContent(dto.getContent());
-        note.setIsPublic(dto.getIsPublic());
+        if(dto.getContent() == null){
+            note.setContent("");
+        } else{
+            note.setContent(dto.getContent());
+        }
+        if(dto.getIsPublic() == null){
+            note.setIsPublic(false);
+        } else{
+            note.setIsPublic(dto.getIsPublic());
+        }
         return note;
     }
     public void updateDto(Note note, NoteInDTO dto){
-        note.setTitle(dto.getTitle());
-        note.setContent(dto.getContent());
-        note.setIsPublic(dto.getIsPublic());
+        if(dto.getTitle() != null){
+            note.setTitle(dto.getTitle());
+        }
+        if(dto.getContent() != null){
+            note.setContent(dto.getContent());
+        }
+        if(dto.getIsPublic() != null){
+            note.setIsPublic(dto.getIsPublic());
+        }else{
+            note.setIsPublic(false);
+        }
     }
 }
