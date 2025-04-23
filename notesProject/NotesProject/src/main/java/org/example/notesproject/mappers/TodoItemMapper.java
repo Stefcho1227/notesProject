@@ -11,20 +11,21 @@ public class TodoItemMapper {
     public TodoItem fromDto(TodoItemInDTO dto) {
         TodoItem todoItem = new TodoItem();
         todoItem.setText(dto.getText());
-        if(dto.getDone() == null){
-            todoItem.setDone(false);
+        if(dto.getIsDone() == null){
+            todoItem.setIsDone(false);
         } else{
-            todoItem.setDone(dto.getDone());
+            todoItem.setIsDone(dto.getIsDone());
         }
         todoItem.setDueDate(dto.getDueDate());
+
         return todoItem;
     }
     public void updateDto(TodoItem todoItem, TodoItemInDTO dto){
         if(dto.getText() != null){
             todoItem.setText(dto.getText());
         }
-        if(dto.getDone() != null){
-            dto.setDone(dto.getDone());
+        if(dto.getIsDone() != null){
+            todoItem.setIsDone(dto.getIsDone());
         }
         if(dto.getDueDate() != null){
             todoItem.setDueDate(dto.getDueDate());

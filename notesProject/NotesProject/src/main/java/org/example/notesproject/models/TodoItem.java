@@ -1,5 +1,6 @@
 package org.example.notesproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 
@@ -14,6 +15,7 @@ public class TodoItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id")
+    @JsonIgnore
     private Note note;
 
     @Column(name = "text")
@@ -52,11 +54,11 @@ public class TodoItem {
         this.text = text;
     }
 
-    public Boolean getDone() {
+    public Boolean getIsDone() {
         return isDone;
     }
 
-    public void setDone(Boolean done) {
+    public void setIsDone(Boolean done) {
         isDone = done;
     }
 

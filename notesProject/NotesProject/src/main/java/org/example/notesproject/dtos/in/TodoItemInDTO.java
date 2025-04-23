@@ -9,6 +9,15 @@ public class TodoItemInDTO {
     private String text;
     private Boolean isDone;
     private LocalDateTime dueDate;
+    private Integer noteId;
+
+    public Integer getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Integer noteId) {
+        this.noteId = noteId;
+    }
 
     public String getText() {
         return text;
@@ -18,11 +27,11 @@ public class TodoItemInDTO {
         this.text = text;
     }
 
-    public Boolean getDone() {
+    public Boolean getIsDone() {
         return isDone;
     }
 
-    public void setDone(Boolean done) {
+    public void setIsDone(Boolean done) {
         isDone = done;
     }
 
