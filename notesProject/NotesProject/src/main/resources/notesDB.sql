@@ -29,20 +29,21 @@ CREATE TABLE note_shares (
 );
 
 CREATE TABLE todo_items (
-                            id        INT AUTO_INCREMENT PRIMARY KEY,
-                            note_id   INTEGER NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
-                            text      TEXT NOT NULL,
-                            is_done   BOOLEAN NOT NULL DEFAULT FALSE,
-                            due_date  TIMESTAMP
+                            id         INT AUTO_INCREMENT PRIMARY KEY,
+                            creator_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                            text       TEXT NOT NULL,
+                            is_done    BOOLEAN NOT NULL DEFAULT FALSE,
+                            due_date   TIMESTAMP
 );
 
 CREATE TABLE reminders (
-                           id         INT AUTO_INCREMENT PRIMARY KEY,
-                           note_id    INTEGER NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
-                           creator_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                           remind_at  TIMESTAMP NOT NULL,
-                           is_sent    BOOLEAN NOT NULL DEFAULT FALSE
+                           id           INT AUTO_INCREMENT PRIMARY KEY,
+                           todo_id      INT NOT NULL REFERENCES todo_items(id) ON DELETE CASCADE,
+                           creator_id   INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                           remind_at    TIMESTAMP NOT NULL,
+                           is_sent      BOOLEAN NOT NULL DEFAULT FALSE
 );
+
 
 CREATE TABLE notifications (
                                id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,9 +62,10 @@ CREATE INDEX idx_notes_deleted_at ON notes (deleted_at);
 
 CREATE INDEX idx_note_shares_shared_with_id ON note_shares (shared_with_id);
 
-CREATE INDEX idx_todo_note_id ON todo_items (note_id);
+CREATE INDEX idx_todo_creator_id ON todo_items (creator_id);
 CREATE INDEX idx_todo_due_date ON todo_items (due_date);
 
+CREATE INDEX idx_reminders_todo_id ON reminders (todo_id);
 CREATE INDEX idx_reminders_remind_at ON reminders (remind_at);
 CREATE INDEX idx_reminders_is_sent ON reminders (is_sent);
 

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="NotesProject" options="-parameters" />
-      <module name="NotesProject.main" options="-parameters" />
-      <module name="NotesProject.test" options="-parameters" />
-    </option>
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>
