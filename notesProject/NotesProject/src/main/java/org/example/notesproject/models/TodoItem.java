@@ -25,6 +25,8 @@ public class TodoItem {
     @Column(name="due_date")
     @FutureOrPresent
     private LocalDateTime dueDate;
+    public TodoItem() {
+    }
 
     public Integer getId() {
         return id;
@@ -66,6 +68,5 @@ public class TodoItem {
         this.dueDate = dueDate;
     }
 
-    public TodoItem() {
-    }
+
 }
