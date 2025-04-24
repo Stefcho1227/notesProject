@@ -4,7 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.example.notesproject.dtos.in.TodoItemInDTO;
 import org.example.notesproject.mappers.TodoItemMapper;
 import org.example.notesproject.models.TodoItem;
+import org.example.notesproject.models.User;
 import org.example.notesproject.repository.TodoItemRepository;
+import org.example.notesproject.repository.UserRepository;
 import org.example.notesproject.service.contracts.TodoItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +17,28 @@ import java.util.List;
 public class TodoItemServiceImpl implements TodoItemService {
     private final TodoItemMapper todoItemMapper;
     private final TodoItemRepository todoItemRepository;
+    private final UserRepository userRepository;
     @Autowired
-    TodoItemServiceImpl(TodoItemRepository todoItemRepository, TodoItemMapper todoItemMapper){
+    TodoItemServiceImpl(TodoItemRepository todoItemRepository, TodoItemMapper todoItemMapper,
+                        UserRepository userRepository){
         this.todoItemRepository = todoItemRepository;
         this.todoItemMapper = todoItemMapper;
+        this.userRepository = userRepository;
     }
     @Override
     public TodoItem create(TodoItemInDTO todoItemInDTO) {
         TodoItem item = todoItemMapper.fromDto(todoItemInDTO);
+        if (todoItemInDTO.getOwnerId() == null) {
+            throw new IllegalArgumentException("Todo item must have an ownerId");
+        }
+        User creator = userRepository.findById(todoItemInDTO.getOwnerId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        item.setCreator(creator);
+        if(todoItemInDTO.getReminderId() == null){
+            item.setReminder(null);
+        } else{
+            item.setReminder();
+        }
         return todoItemRepository.save(item);
     }
 

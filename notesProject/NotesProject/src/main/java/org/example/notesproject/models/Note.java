@@ -38,10 +38,6 @@ public class Note {
     private LocalDateTime updatedAt;
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
-
-    @OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
-    private List<TodoItem> todos = new ArrayList<>();
-
     public Note() {
     }
 
@@ -115,14 +111,6 @@ public class Note {
 
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    public List<TodoItem> getTodos() {
-        return todos;
-    }
-
-    public void setTodos(List<TodoItem> todos) {
-        this.todos = todos;
     }
 }
 

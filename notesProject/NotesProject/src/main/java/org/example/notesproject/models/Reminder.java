@@ -13,9 +13,9 @@ public class Reminder {
     @Column(name="id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "note_id")
-    private Note note;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "todo_id")
+    private TodoItem todoItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
@@ -38,12 +38,12 @@ public class Reminder {
         this.id = id;
     }
 
-    public Note getNote() {
-        return note;
+    public TodoItem getTodoItem() {
+        return todoItem;
     }
 
-    public void setNote(Note note) {
-        this.note = note;
+    public void setTodoItem(TodoItem todoItem) {
+        this.todoItem = todoItem;
     }
 
     public User getCreator() {

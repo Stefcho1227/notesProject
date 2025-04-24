@@ -24,7 +24,6 @@ public class NoteServiceImpl implements NoteService {
     private final UserRepository userRepository;
     private final NoteMapper noteMapper;
     private static final String BASE_URL = "api/notes/";
-    private static final String SLUG_SALT = "your-secret-salt";
     @Autowired
     public NoteServiceImpl(NoteRepository noteRepository, NoteMapper noteMapper, UserRepository userRepository){
         this.noteRepository = noteRepository;

@@ -32,8 +32,19 @@ public class User {
     private LocalDateTime lastLoginAt;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Note> notes = new ArrayList<>();
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private List<TodoItem> todoItems = new ArrayList<>();
+
 
     public User() {
+    }
+
+    public List<TodoItem> getTodoItems() {
+        return todoItems;
+    }
+
+    public void setTodoItems(List<TodoItem> todoItems) {
+        this.todoItems = todoItems;
     }
 
     public Integer getId() {

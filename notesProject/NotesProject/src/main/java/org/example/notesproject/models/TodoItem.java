@@ -1,5 +1,6 @@
 package org.example.notesproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 
@@ -11,10 +12,13 @@ public class TodoItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "note_id")
-    private Note note;
+    @JoinColumn(name = "creator_id")
+    @JsonIgnore
+    private User creator;
+
+    @OneToOne(mappedBy = "todoItem", cascade = CascadeType.ALL)
+    private Reminder reminder;
 
     @Column(name = "text")
     private String text;
@@ -36,12 +40,20 @@ public class TodoItem {
         this.id = id;
     }
 
-    public Note getNote() {
-        return note;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setNote(Note note) {
-        this.note = note;
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public Reminder getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(Reminder reminder) {
+        this.reminder = reminder;
     }
 
     public String getText() {
