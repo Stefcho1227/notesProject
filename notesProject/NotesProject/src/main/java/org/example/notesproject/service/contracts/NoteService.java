@@ -8,9 +8,9 @@ import org.example.notesproject.models.User;
 import java.util.List;
 
 public interface NoteService {
-    public Note create(NoteInDTO noteInDTO);
-    public List<Note> findAll();
-    public Note find(Integer id);
-    public Note update(Integer id, NoteInDTO userInDTO);
-    public void delete(Integer id);
+    Note create(NoteInDTO noteInDTO);
+    List<Note> findAll();
+    Note find(Integer id);
+    Note update(Integer id, NoteInDTO userInDTO);
+    void delete(Integer id);
 }

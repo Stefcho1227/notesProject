@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26d5269-ed24-40d9-b552-8822b8923b6b" name="Changes" comment="" />
+    <list default="true" id="c26d5269-ed24-40d9-b552-8822b8923b6b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/dtos/in/ReminderInDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/mappers/ReminderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/ReminderServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/ReminderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/NoteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/TodoItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/TodoItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/contracts/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotesProject/src/main/java/org/example/notesproject/service/example.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,9 +54,9 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "stefan-branch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Asus/Documents/FMI/WEB/Web_Project/notesProject",
+    "last_opened_file_path": "C:/Users/Asus/Documents/FMI/WEB/Web_Project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,6 +84,7 @@
       <updated>1745329199113</updated>
       <workItem from="1745329200128" duration="877000" />
       <workItem from="1745330610537" duration="72000" />
+      <workItem from="1745495422403" duration="49000" />
     </task>
     <servers />
   </component>

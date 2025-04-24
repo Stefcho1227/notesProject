@@ -6,9 +6,9 @@ import org.example.notesproject.models.User;
 import java.util.List;
 
 public interface UserService {
-    public User create(UserInDTO userInDTO);
-    public List<User> findAll();
-    public User find(Integer id);
-    public User update(Integer id, UserInDTO userInDTO);
-    public void delete(Integer id);
+    User create(UserInDTO userInDTO);
+    List<User> findAll();
+    User find(Integer id);
+    User update(Integer id, UserInDTO userInDTO);
+    void delete(Integer id);
 }
