@@ -34,11 +34,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         User creator = userRepository.findById(todoItemInDTO.getOwnerId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         item.setCreator(creator);
-        if(todoItemInDTO.getReminderId() == null){
-            item.setReminder(null);
-        } else{
-            item.setReminder();
-        }
+        item.setReminder(null);
         return todoItemRepository.save(item);
     }
 

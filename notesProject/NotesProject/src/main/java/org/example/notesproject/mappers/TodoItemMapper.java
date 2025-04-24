@@ -16,7 +16,6 @@ public class TodoItemMapper {
         } else{
             todoItem.setDone(dto.getDone());
         }
-        todoItem.setDueDate(dto.getDueDate());
         return todoItem;
     }
     public void updateDto(TodoItem todoItem, TodoItemInDTO dto){
@@ -25,9 +24,6 @@ public class TodoItemMapper {
         }
         if(dto.getDone() != null){
             dto.setDone(dto.getDone());
-        }
-        if(dto.getDueDate() != null){
-            todoItem.setDueDate(dto.getDueDate());
         }
     }
 }

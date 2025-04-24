@@ -26,9 +26,6 @@ public class TodoItem {
     @Column(name = "is_done")
     private Boolean isDone;
 
-    @Column(name="due_date")
-    @FutureOrPresent
-    private LocalDateTime dueDate;
     public TodoItem() {
     }
 
@@ -71,14 +68,5 @@ public class TodoItem {
     public void setDone(Boolean done) {
         isDone = done;
     }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
-
 
 }

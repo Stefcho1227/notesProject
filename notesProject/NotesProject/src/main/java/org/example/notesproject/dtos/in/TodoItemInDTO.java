@@ -8,17 +8,7 @@ public class TodoItemInDTO {
     @Size(min = 2, max = 80, message = "Text should be between 2 and 80 characters long")
     private String text;
     private Boolean isDone;
-    private LocalDateTime dueDate;
     private Integer ownerId;
-    private Integer reminderId;
-
-    public Integer getReminderId() {
-        return reminderId;
-    }
-
-    public void setReminderId(Integer reminderId) {
-        this.reminderId = reminderId;
-    }
 
     public Integer getOwnerId() {
         return ownerId;
@@ -42,13 +32,5 @@ public class TodoItemInDTO {
 
     public void setDone(Boolean done) {
         isDone = done;
-    }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
     }
 }

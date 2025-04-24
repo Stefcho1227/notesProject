@@ -32,8 +32,7 @@ CREATE TABLE todo_items (
                             id         INT AUTO_INCREMENT PRIMARY KEY,
                             creator_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                             text       TEXT NOT NULL,
-                            is_done    BOOLEAN NOT NULL DEFAULT FALSE,
-                            due_date   TIMESTAMP
+                            is_done    BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE reminders (
