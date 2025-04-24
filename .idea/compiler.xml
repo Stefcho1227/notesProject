@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+<<<<<<< HEAD
     <bytecodeTargetLevel>
       <module name="NotesProject" target="17" />
     </bytecodeTargetLevel>
@@ -11,5 +12,8 @@
       <module name="NotesProject.main" options="-parameters" />
       <module name="NotesProject.test" options="-parameters" />
     </option>
+=======
+    <bytecodeTargetLevel target="17" />
+>>>>>>> 5737be542fe51d38bd8c384be7a7601c6fd31ca1
   </component>
 </project>
