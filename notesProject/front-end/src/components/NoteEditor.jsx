@@ -1,10 +1,11 @@
+import React from "react";
 import {useState, useEffect} from 'react';
 
 const NoteEditor = ({note, onUpdateNote}) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    useEffect(() => {
+    useEffect(() => {//може да ползваш react hook form, което ще ти спести такива ръчни валидации и ще олесни и ресетването на данните
         if (note) {
             setTitle(note.title);
             setContent(note.content);
