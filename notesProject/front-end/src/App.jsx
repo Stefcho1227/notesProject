@@ -7,17 +7,19 @@ import './App.css'
 
 
 function App() {
+    const [activeTab, setActiveTab] = useState('notes');
     const [notes, setNotes] = useState([]);
+    const [todos, setTodos] = useState({});
     const [activeNote, setActiveNote] = useState(null);
-    {/*може да използваш готово компоненти, които да правят търсенето*/}
     const [searchTerm, setSearchTerm] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {//useEffect ти трябва като фечваш, не в този контекст
+    useEffect(() => {
         const sampleNotes = [
             {id:1, title: 'Note 1', content: 'This is the first note', lastModified: new Date()},
             {id:2, title: 'Note 2', content: 'This is the second note', lastModified: new Date()}
         ];
-        setNotes(sampleNotes); //не ги сетвай така, направо си ги инициализирай като аргументи на useState
+        setNotes(sampleNotes);
     }, []);
 
     const filterNotes = notes.filter(note =>
@@ -25,16 +27,34 @@ function App() {
         note.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleAddNote = () => {
-      const newNote = {
-        id: Date.now(),
-        title: 'Untitled Note',
-        content: '',
-        lastModified: new Date()
+    const handleAddItem = () => {
+        if(activeTab === 'notes') {
+            const newNote = {
+                id: Date.now(),
+                title: 'Untitled Note',
+                content: '',
+                lastModified: new Date()
+              };
+              setNotes([newNote, ...notes]);
+              setActiveNote(newNote);
+              setIsEditing(true);
+        }
+        else {
+            // Add logic for adding a new todo item
+        }
+        
       };
-      setNotes([newNote, ...notes]);
-      setActiveNote(newNote);
-    };
+
+    // const handleAddNote = () => {
+    //   const newNote = {
+    //     id: Date.now(),
+    //     title: 'Untitled Note',
+    //     content: '',
+    //     lastModified: new Date()
+    //   };
+    //   setNotes([newNote, ...notes]);
+    //   setActiveNote(newNote);
+    // };
 
     const handleUpdateNote = (updatedNote) => {
         const updatedNotes = notes.map(note => 
@@ -42,28 +62,62 @@ function App() {
         );
         setNotes(updatedNotes);
         setActiveNote(updatedNote);
+        setIsEditing(true);
     };
 
     const handleDeleteNote = (id) => {
         setNotes(notes.filter(note => note.id !== id));
         if(activeNote && activeNote.id === id) {
             setActiveNote(null);
+            setIsEditing(false);
         }
     };
 
+    const handleNoteSelect = (note) => {
+        setActiveNote(note);
+        setIsEditing(true);
+    }
+
+    const handleCancelEdit = () => {
+        if(activeNote && activeNote.title === 'Untitled Note' && activeNote.content === '') {//fix statement
+            if(window.confirm('Delete this empty note?')) {
+                setNotes(notes.filter(note => note.id !== activeNote.id));
+            }
+        }
+        setActiveNote(null);
+        setIsEditing(false);
+    }
+
     return (
-        <div className='app'>{/*кажи на чата да ти смени див-овете със секшъни*/}
-            <Header onAddNote={handleAddNote}/>
+        <div className='app'>
+            <Header
+            activeTab={activeTab}
+            onTabChange={setActiveTab}/>
 
             <div className='mainContent'>
-                <NoteList notes={filterNotes} activeNote={activeNote} onNoteSelect={setActiveNote} onNoteDelete={handleDeleteNote} onSearch={setSearchTerm}/>
-                {/*виж реакт редюсърите(те са точно за случаи, когато използваш много хендлър функции)*/}
-                {/*вместо по този начин да симулираш смяна на страницата можеш да ползваш реакт рутер data mode, което ще махне нуждата от актив нот, даже ще може да си направиш и отделна страница при добавяне на нот, така че да не се налага да првиш дъмита*/}
-                {/*с реакт рутер може да използваш екшъни и лоадъри, където може да изнесеш кода за извличане на данни, за добавяне или ъпдейтване*/}
-                <NoteEditor note={activeNote} onUpdateNote={handleUpdateNote}/>
+            {activeTab === 'notes' ? (<div className='mainContent'>
+                <NoteList
+                notes={filterNotes}
+                activeNote={activeNote}
+                onNoteSelect={handleNoteSelect}
+                onNoteDelete={handleDeleteNote}
+                onSearch={setSearchTerm}/>
+
+                <NoteEditor
+                note={activeNote}
+                onUpdateNote={handleUpdateNote}
+                onCancel={handleCancelEdit}/>
             </div>
-        </div>
+            ) : (
+            <div/* To-Do List Component *//>
+            )}
+
+            {!isEditing && <button 
+            className='fab'
+            onClick={handleAddItem}>+</button>}
+        </div>          
+    </div>    
     );
-}
+};
 
 export default App;

@@ -1,11 +1,12 @@
 import React from "react";
+
 import {useState, useEffect} from 'react';
 
-const NoteEditor = ({note, onUpdateNote}) => {
+const NoteEditor = ({note, onUpdateNote, onCancel}) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    useEffect(() => {//може да ползваш react hook form, което ще ти спести такива ръчни валидации и ще олесни и ресетването на данните
+    useEffect(() => {
         if (note) {
             setTitle(note.title);
             setContent(note.content);
@@ -47,7 +48,12 @@ const NoteEditor = ({note, onUpdateNote}) => {
                 placeholder='Write your note here...'
                 />
 
-                <button onClick={handleSave} className='saveBtn'>Save</button>
+                <div className='editorActions'>
+                    <button onClick={handleSave} className='saveBtn'>Save</button>
+
+                    <button onClick={onCancel} className='cancelBtn'>Cancel</button>
+                    
+                </div>  
             </div>
         );
 };

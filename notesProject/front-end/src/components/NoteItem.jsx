@@ -1,4 +1,6 @@
 import React from "react";
+
+
 const NoteItem = ({note, isActive, onSelect, onDelete}) => {
     const formattedDate = new Date(note.lastModified).toLocaleString();
 
@@ -12,8 +14,8 @@ const NoteItem = ({note, isActive, onSelect, onDelete}) => {
         onClick={() => onSelect(note)}>
             <div className="noteItemHeader">
                 <h3>{note.title}</h3>
-                <button className="deleteBtn" onClick={handleDelete}>{/*може type='button', така че да не се налага да имаш стоп пропагейшън*/}
-                    X{/*можеш да ползваш готови иконки*/}
+                <button className="deleteBtn" onClick={handleDelete}>
+                    X
                 </button>
             </div>
 
